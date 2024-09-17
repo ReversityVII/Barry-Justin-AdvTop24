@@ -14,31 +14,53 @@ public class CameraVision : MonoBehaviour
     public Camera cam;
     public GameObject feed;
 
-    // Start is called before the first frame update
-    void Start()
+    private List<Texture2D> screenshots = new List<Texture2D>();
+    private int totalShots;
+    public int FramesPerSecond;
+    private float fpsTimer;
+
+    private void Start()
     {
-        
+        totalShots = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        fpsTimer += Time.deltaTime;
 
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1) && fpsTimer > ((1000 / FramesPerSecond) * 0.001)) //scales with fps
         {
-            
-
-            //RenderTexture rt = new RenderTexture(cam.pixelWidth, cam.pixelHeight, 24);
-            //cam.targetTexture = rt;
-            print("reached");
-
-            Texture2D screenshot = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
-
-            cam.Render();
-
-            screenshot.ReadPixels(new Rect(0, 0, cam.pixelWidth, cam.pixelHeight), 0, 0);
-            
+            StartCoroutine(takeScreenshot());
+            fpsTimer = 0;
         }
     }
+
+    IEnumerator takeScreenshot()
+    {
+        yield return new WaitForEndOfFrame();
+        //wait til everything has been done before proceeding
+        print(totalShots);
+        
+        //set up screenshot properties
+        Texture2D snap = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
+
+        //ensure camera is rendered
+        cam.Render();
+
+        //read the pixels from the same spot and apply
+        snap.ReadPixels(new Rect(0, 0, cam.pixelWidth, cam.pixelHeight), 0, 0);
+        snap.Apply();
+
+        screenshots.Add(snap);
+
+        //overwrite quad texture
+        feed.GetComponent<MeshRenderer>().material.mainTexture = screenshots[totalShots];
+        
+        totalShots++;
+
+        yield return null;
+    }
+
+
 }
 
