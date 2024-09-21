@@ -30,14 +30,14 @@ public class CameraVision : MonoBehaviour
 
         if (Input.GetMouseButton(1) && fpsTimer > ((1000 / FramesPerSecond) * 0.001)) //scales with fps
         {
-            StartCoroutine(takeScreenshot());
+            takeScreenshot();
             fpsTimer = 0;
         }
     }
 
-    IEnumerator takeScreenshot()
+    void takeScreenshot()
     {
-        yield return new WaitForEndOfFrame();
+        //yield return new WaitForEndOfFrame();
         //wait til everything has been done before proceeding
         print(totalShots);
         
@@ -58,7 +58,7 @@ public class CameraVision : MonoBehaviour
         
         totalShots++;
 
-        yield return null;
+        //yield return null;
     }
 
 
