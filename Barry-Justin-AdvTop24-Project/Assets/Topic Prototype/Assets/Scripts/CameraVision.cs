@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -33,32 +34,56 @@ public class CameraVision : MonoBehaviour
             takeScreenshot();
             fpsTimer = 0;
         }
+
+        if(Input.GetAxis("Mouse ScrollWheel") != 0)
+            adjustZoom(Input.GetAxis("Mouse ScrollWheel"));
+
+        if (Input.GetMouseButtonDown(2))
+            resetZoom();
+        
     }
 
     void takeScreenshot()
     {
-        //yield return new WaitForEndOfFrame();
-        //wait til everything has been done before proceeding
-        print(totalShots);
+            //yield return new WaitForEndOfFrame();
+            //wait til everything has been done before proceeding
+
+            //set up screenshot properties
+            Texture2D snap = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
+
+            //ensure camera is rendered
+            cam.Render();
         
-        //set up screenshot properties
-        Texture2D snap = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
+            //read the pixels from the same spot and apply
+            snap.ReadPixels(new Rect(0, 0, cam.pixelWidth, cam.pixelHeight), 0, 0);
+            snap.Apply();
+           
 
-        //ensure camera is rendered
-        cam.Render();
+            screenshots.Add(snap);
 
-        //read the pixels from the same spot and apply
-        snap.ReadPixels(new Rect(0, 0, cam.pixelWidth, cam.pixelHeight), 0, 0);
-        snap.Apply();
+            //overwrite quad texture
+            feed.GetComponent<MeshRenderer>().material.mainTexture = screenshots[totalShots];
 
-        screenshots.Add(snap);
+            totalShots++;
+            //yield return null;
 
-        //overwrite quad texture
-        feed.GetComponent<MeshRenderer>().material.mainTexture = screenshots[totalShots];
-        
-        totalShots++;
+    }
 
-        //yield return null;
+    void adjustZoom(float axis)
+    {
+        if(axis < 0)
+        {
+            cam.fieldOfView += 2;
+        }
+        else
+        {
+            cam.fieldOfView -= 2;
+        }
+    }
+
+    void resetZoom()
+    {
+        cam.fieldOfView = 70;
     }
 
 
