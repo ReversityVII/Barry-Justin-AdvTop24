@@ -630,7 +630,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1960678779}
   feed: {fileID: 1607197839}
+  screenshots: []
   FramesPerSecond: 15
+  static1: {fileID: 2800000, guid: 4bd5b1f5d14c9df429c6633a3c28700e, type: 3}
+  static2: {fileID: 2800000, guid: fd34586c7d5403f42bdaaec5d70f683e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

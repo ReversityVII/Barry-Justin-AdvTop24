@@ -15,14 +15,20 @@ public class CameraVision : MonoBehaviour
     public Camera cam;
     public GameObject feed;
 
-    private List<Texture2D> screenshots = new List<Texture2D>();
+    public List<Texture2D> screenshots = new List<Texture2D>();
     private int totalShots;
     public int FramesPerSecond;
     private float fpsTimer;
+    private float consecutivePhotos = 0;
+
+    public Texture2D static1;
+    public Texture2D static2;
+    private MeshRenderer feedMesh;
 
     private void Start()
     {
         totalShots = 0;
+        feedMesh = feed.GetComponent<MeshRenderer>();
     }
 
     private void Update()
@@ -31,47 +37,69 @@ public class CameraVision : MonoBehaviour
 
         if (Input.GetMouseButton(1) && fpsTimer > ((1000 / FramesPerSecond) * 0.001)) //scales with fps
         {
+            consecutivePhotos++;
             takeScreenshot();
             fpsTimer = 0;
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") != 0)
+        if (!Input.GetMouseButton(1))
+        {
+            consecutivePhotos = 0;
+        }
+
+
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
             adjustZoom(Input.GetAxis("Mouse ScrollWheel"));
 
         if (Input.GetMouseButtonDown(2))
             resetZoom();
-        
+
     }
 
     void takeScreenshot()
     {
-            //yield return new WaitForEndOfFrame();
-            //wait til everything has been done before proceeding
+        //yield return new WaitForEndOfFrame();
+        //wait til everything has been done before proceeding
 
-            //set up screenshot properties
-            Texture2D snap = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
+        //set up screenshot properties
+        Texture2D snap = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
 
-            //ensure camera is rendered
-            cam.Render();
-        
-            //read the pixels from the same spot and apply
+        //ensure camera is rendered
+        cam.Render();
+
+        //read the pixels from the same spot and apply
+        try
+        {
             snap.ReadPixels(new Rect(0, 0, cam.pixelWidth, cam.pixelHeight), 0, 0);
             snap.Apply();
-           
+        }
+        catch (Exception ex)
+        {
+            print("reached");
+        }
+        
 
+        if (consecutivePhotos == 1)
+        {
+            screenshots.Add(static1);
+            screenshots.Add(static2);
+            feedMesh.material.mainTexture = screenshots[totalShots];
+
+            totalShots += 2; //account for the extra shot
+        }
+        else
+        {
             screenshots.Add(snap);
-
-            //overwrite quad texture
-            feed.GetComponent<MeshRenderer>().material.mainTexture = screenshots[totalShots];
+            feedMesh.material.mainTexture = screenshots[totalShots];
 
             totalShots++;
-            //yield return null;
-
+        }
+        //yield return null;
     }
 
     void adjustZoom(float axis)
     {
-        if(axis < 0)
+        if (axis < 0)
         {
             cam.fieldOfView += 2;
         }
