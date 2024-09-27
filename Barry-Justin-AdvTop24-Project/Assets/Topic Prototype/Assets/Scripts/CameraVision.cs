@@ -25,6 +25,8 @@ public class CameraVision : MonoBehaviour
     public Texture2D static2;
     private MeshRenderer feedMesh;
 
+    [SerializeField]
+    private RenderTexture renderTexture;
     private void Start()
     {
         totalShots = 0;
@@ -62,7 +64,7 @@ public class CameraVision : MonoBehaviour
         //wait til everything has been done before proceeding
 
         //set up screenshot properties
-        Texture2D snap = new Texture2D(cam.pixelWidth, cam.pixelHeight, TextureFormat.RGB24, false);
+        Texture2D snap = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
 
         //ensure camera is rendered
         cam.Render();
@@ -70,7 +72,8 @@ public class CameraVision : MonoBehaviour
         //read the pixels from the same spot and apply
         try
         {
-            snap.ReadPixels(new Rect(0, 0, cam.pixelWidth, cam.pixelHeight), 0, 0);
+            RenderTexture.active = renderTexture;
+            snap.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
             snap.Apply();
         }
         catch (Exception ex)
