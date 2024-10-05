@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraVision : MonoBehaviour
@@ -16,8 +13,9 @@ public class CameraVision : MonoBehaviour
     public GameObject feed;
 
     public List<Texture2D> screenshots = new List<Texture2D>();
+    
     private int totalShots;
-    public int FramesPerSecond;
+    public int framesPerSecond;
     private float fpsTimer;
     private float consecutivePhotos = 0;
 
@@ -27,6 +25,8 @@ public class CameraVision : MonoBehaviour
 
     [SerializeField]
     private RenderTexture renderTexture;
+
+
     private void Start()
     {
         totalShots = 0;
@@ -37,31 +37,26 @@ public class CameraVision : MonoBehaviour
     {
         fpsTimer += Time.deltaTime;
 
-        if (Input.GetMouseButton(1) && fpsTimer > ((1000 / FramesPerSecond) * 0.001)) //scales with fps
+        if (Input.GetMouseButton(1) && fpsTimer > ((1000 / framesPerSecond) * 0.001)) //scales with fps
         {
             consecutivePhotos++;
             takeScreenshot();
             fpsTimer = 0;
         }
 
-        if (!Input.GetMouseButton(1))
-        {
+        if (!Input.GetMouseButton(1))  //m2 released
             consecutivePhotos = 0;
-        }
 
+        if (Input.GetAxis("Mouse ScrollWheel") != 0) //if scrolling has happened
+            AdjustZoom(Input.GetAxis("Mouse ScrollWheel"));
 
-        if (Input.GetAxis("Mouse ScrollWheel") != 0)
-            adjustZoom(Input.GetAxis("Mouse ScrollWheel"));
-
-        if (Input.GetMouseButtonDown(2))
-            resetZoom();
+        if (Input.GetMouseButtonDown(2)) //middle mouse pressed
+            ResetZoom();
 
     }
 
     void takeScreenshot()
     {
-        //yield return new WaitForEndOfFrame();
-        //wait til everything has been done before proceeding
 
         //set up screenshot properties
         Texture2D snap = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
@@ -70,19 +65,11 @@ public class CameraVision : MonoBehaviour
         cam.Render();
 
         //read the pixels from the same spot and apply
-        try
-        {
-            RenderTexture.active = renderTexture;
-            snap.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-            snap.Apply();
-        }
-        catch (Exception ex)
-        {
-            print("reached");
-        }
-        
+        RenderTexture.active = renderTexture;
+        snap.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        snap.Apply();    
 
-        if (consecutivePhotos == 1)
+        if (consecutivePhotos == 1) //add static
         {
             screenshots.Add(static1);
             screenshots.Add(static2);
@@ -90,33 +77,28 @@ public class CameraVision : MonoBehaviour
 
             totalShots += 2; //account for the extra shot
         }
-        else
+        else //just take a screenshot
         {
             screenshots.Add(snap);
             feedMesh.material.mainTexture = screenshots[totalShots];
 
             totalShots++;
         }
-        //yield return null;
     }
 
-    void adjustZoom(float axis)
+    void AdjustZoom(float axis)
     {
         if (axis < 0)
-        {
             cam.fieldOfView += 2;
-        }
+        
         else
-        {
             cam.fieldOfView -= 2;
-        }
+        
     }
 
-    void resetZoom()
+    void ResetZoom()
     {
         cam.fieldOfView = 70;
     }
-
-
 }
 
