@@ -9,28 +9,34 @@ public class CameraVision : MonoBehaviour
     https://stackoverflow.com/questions/46595055/readpixels-was-called-to-read-pixels-from-system-frame-buffer-while-not-inside
     */
 
-    public Camera cam;
-    public GameObject feed;
+    public Camera cam; //main camera
+    public GameObject feed; //video feed
 
-    public List<Texture2D> screenshots = new List<Texture2D>();
+    public List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
     
+    //recording vars
     private int totalShots;
     public int framesPerSecond;
     private float fpsTimer;
     private float consecutivePhotos = 0;
 
-    public Texture2D static1;
-    public Texture2D static2;
     private MeshRenderer feedMesh;
 
     [SerializeField]
     private RenderTexture renderTexture;
+
+    //physical appearance vars
+    public Texture2D static1; //static for cuts
+    public Texture2D static2;
+
+    private CameraLightIndication camLight;
 
 
     private void Start()
     {
         totalShots = 0;
         feedMesh = feed.GetComponent<MeshRenderer>();
+        camLight = FindObjectOfType<CameraLightIndication>();
     }
 
     private void Update()
@@ -39,13 +45,18 @@ public class CameraVision : MonoBehaviour
 
         if (Input.GetMouseButton(1) && fpsTimer > ((1000 / framesPerSecond) * 0.001)) //scales with fps
         {
+            camLight.UpdateState(1);
             consecutivePhotos++;
             takeScreenshot();
             fpsTimer = 0;
         }
 
         if (!Input.GetMouseButton(1))  //m2 released
+        {
             consecutivePhotos = 0;
+            camLight.UpdateState(-1);
+        }
+            
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0) //if scrolling has happened
             AdjustZoom(Input.GetAxis("Mouse ScrollWheel"));
@@ -69,13 +80,18 @@ public class CameraVision : MonoBehaviour
         snap.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         snap.Apply();    
 
-        if (consecutivePhotos == 1) //add static
+        if (consecutivePhotos == 1) //add static and enable light
         {
             screenshots.Add(static1);
-            screenshots.Add(static2);
             feedMesh.material.mainTexture = screenshots[totalShots];
 
-            totalShots += 2; //account for the extra shot
+            totalShots++; //account for the extra shots
+        }
+        else if (consecutivePhotos == 2)
+        {
+            screenshots.Add(static2);
+            feedMesh.material.mainTexture = screenshots[totalShots];
+            totalShots++;
         }
         else //just take a screenshot
         {
