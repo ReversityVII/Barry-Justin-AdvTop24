@@ -3,16 +3,10 @@ using UnityEngine;
 
 public class CameraVision : MonoBehaviour
 {
+    public Camera thisCam; //main camera
+    public GameObject camFeed; //video feed
 
-    /*
-    https://stackoverflow.com/questions/32996534/rendering-complete-camera-view169-onto-a-texture-in-unity3d
-    https://stackoverflow.com/questions/46595055/readpixels-was-called-to-read-pixels-from-system-frame-buffer-while-not-inside
-    */
-
-    public Camera cam; //main camera
-    public GameObject feed; //video feed
-
-    public List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
+    private List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
     
     //recording vars
     private int totalShots;
@@ -35,7 +29,7 @@ public class CameraVision : MonoBehaviour
     private void Start()
     {
         totalShots = 0;
-        feedMesh = feed.GetComponent<MeshRenderer>();
+        feedMesh = camFeed.GetComponent<MeshRenderer>();
         camLight = FindObjectOfType<CameraLightIndication>();
     }
 
@@ -68,34 +62,33 @@ public class CameraVision : MonoBehaviour
 
     void takeScreenshot()
     {
-
         //set up screenshot properties
-        Texture2D snap = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+        Texture2D screenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
 
         //ensure camera is rendered
-        cam.Render();
+        thisCam.Render();
 
         //read the pixels from the same spot and apply
         RenderTexture.active = renderTexture;
-        snap.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-        snap.Apply();    
+        screenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+        screenshot.Apply();    
 
-        if (consecutivePhotos == 1) //add static and enable light
+        if (consecutivePhotos == 1) //add static for first 2 frames, enable light
         {
             screenshots.Add(static1);
             feedMesh.material.mainTexture = screenshots[totalShots];
 
             totalShots++; //account for the extra shots
         }
-        else if (consecutivePhotos == 2)
+        else if (consecutivePhotos == 2) //second static frame
         {
             screenshots.Add(static2);
             feedMesh.material.mainTexture = screenshots[totalShots];
             totalShots++;
         }
-        else //just take a screenshot
+        else //take a normal screenshot - no static is required
         {
-            screenshots.Add(snap);
+            screenshots.Add(screenshot);
             feedMesh.material.mainTexture = screenshots[totalShots];
 
             totalShots++;
@@ -104,17 +97,20 @@ public class CameraVision : MonoBehaviour
 
     void AdjustZoom(float axis)
     {
-        if (axis < 0)
-            cam.fieldOfView += 2;
+        //player scrolls down
+        if (axis < 0 && thisCam.fieldOfView < 120)
+            thisCam.fieldOfView += 2;
         
-        else
-            cam.fieldOfView -= 2;
+        //player scrolls up
+        else if (axis > 0 && thisCam.fieldOfView > 30)
+            thisCam.fieldOfView -= 2;
         
     }
 
     void ResetZoom()
     {
-        cam.fieldOfView = 70;
+        //default FOV
+        thisCam.fieldOfView = 70;
     }
 }
 

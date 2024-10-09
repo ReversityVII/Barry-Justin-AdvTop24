@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 535056082}
   - component: {fileID: 535056081}
   - component: {fileID: 535056080}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -498,7 +498,7 @@ GameObject:
   - component: {fileID: 549485936}
   - component: {fileID: 549485935}
   - component: {fileID: 549485934}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScreenSupport (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,7 +601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 571290327}
   - component: {fileID: 571290328}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +672,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 64
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
@@ -697,7 +697,7 @@ GameObject:
   - component: {fileID: 573310471}
   - component: {fileID: 573310470}
   - component: {fileID: 573310469}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,7 +713,7 @@ Transform:
   m_GameObject: {fileID: 573310467}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.000000014901161, w: 1}
-  m_LocalPosition: {x: -0.755, y: -0.83672553, z: 0.537}
+  m_LocalPosition: {x: -0.755, y: -0.83672553, z: 0.628}
   m_LocalScale: {x: 0.34493378, y: 0.5392963, z: 0.34493378}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1109,7 +1109,7 @@ GameObject:
   - component: {fileID: 989889401}
   - component: {fileID: 989889400}
   - component: {fileID: 989889399}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: recording light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2001,7 +2001,7 @@ GameObject:
   - component: {fileID: 1607197843}
   - component: {fileID: 1607197842}
   - component: {fileID: 1607197841}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: VideoFeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2083,7 +2083,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1608770182}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Camera Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2125,7 +2125,7 @@ GameObject:
   - component: {fileID: 1646164845}
   - component: {fileID: 1646164844}
   - component: {fileID: 1646164843}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScreenSupport (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2230,7 +2230,7 @@ GameObject:
   - component: {fileID: 1649164864}
   - component: {fileID: 1649164863}
   - component: {fileID: 1649164862}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScreenSupport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2335,7 +2335,7 @@ GameObject:
   - component: {fileID: 1865285605}
   - component: {fileID: 1865285604}
   - component: {fileID: 1865285603}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2487,7 +2487,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 23
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 75910f10f248cf84c957a87aa6dc3b86, type: 2}
   m_TargetDisplay: 0
@@ -2508,7 +2508,7 @@ Transform:
   m_GameObject: {fileID: 1960678777}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: -0.184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2526,9 +2526,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b845f38d26a87149a4b72ce343fbe43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1960678779}
-  feed: {fileID: 1607197839}
-  screenshots: []
+  thisCam: {fileID: 1960678779}
+  camFeed: {fileID: 1607197839}
   framesPerSecond: 20
   renderTexture: {fileID: 8400000, guid: 75910f10f248cf84c957a87aa6dc3b86, type: 2}
   static1: {fileID: 2800000, guid: 4bd5b1f5d14c9df429c6633a3c28700e, type: 3}
