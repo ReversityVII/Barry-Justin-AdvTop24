@@ -97,14 +97,11 @@ public class CameraVision : MonoBehaviour
 
     void AdjustZoom(float axis)
     {
-        //player scrolls down
-        if (axis < 0 && thisCam.fieldOfView < 120)
+        if (axis < 0 && thisCam.fieldOfView < 120) //player scrolls down
             thisCam.fieldOfView += 2;
         
-        //player scrolls up
-        else if (axis > 0 && thisCam.fieldOfView > 30)
+        else if (axis > 0 && thisCam.fieldOfView > 30) //player scrolls up
             thisCam.fieldOfView -= 2;
-        
     }
 
     void ResetZoom()
