@@ -12,7 +12,7 @@ public class CameraVision : MonoBehaviour
     private int totalShots;
     public int framesPerSecond;
     private float fpsTimer;
-    private float consecutivePhotos = 0;
+    private float consecutivePhotos;
 
     private MeshRenderer feedMesh;
 
@@ -28,6 +28,11 @@ public class CameraVision : MonoBehaviour
 
     private void Start()
     {
+        //safeguard div by 0
+        if(framesPerSecond < 1)
+            framesPerSecond = 1;
+
+        consecutivePhotos = 0;
         totalShots = 0;
         feedMesh = camFeed.GetComponent<MeshRenderer>();
         camLight = FindObjectOfType<CameraLightIndication>();

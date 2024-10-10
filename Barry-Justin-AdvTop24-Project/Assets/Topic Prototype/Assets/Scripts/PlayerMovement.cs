@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     /*
      * Code inspired by https://www.youtube.com/watch?v=1uW-GbHrtQc&ab_channel=Brogrammer
      * Minus some minor changes, it's virtually the same. 
       */
-
     public Camera mainCamera;
     public float walkSpeed;
     public float jumpStrength;
