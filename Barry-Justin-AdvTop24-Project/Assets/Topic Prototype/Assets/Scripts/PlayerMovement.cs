@@ -8,12 +8,13 @@ public class PlayerMovement : MonoBehaviour
      * Code inspired by https://www.youtube.com/watch?v=1uW-GbHrtQc&ab_channel=Brogrammer
      * Minus some minor changes, it's virtually the same. 
       */
-    public Camera mainCamera;
-    public float walkSpeed;
-    public float jumpStrength;
-    public float lookSensitivity;
-    public float lookXLimit;
-    public float gravity;
+
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float jumpStrength;
+    [SerializeField] private float lookSensitivity;
+    [SerializeField] private float lookXLimit;
+    [SerializeField] private float gravity;
 
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
