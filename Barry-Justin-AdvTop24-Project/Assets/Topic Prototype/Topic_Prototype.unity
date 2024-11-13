@@ -1206,8 +1206,8 @@ Transform:
   m_GameObject: {fileID: 802679470}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.204208, y: 11.5213585, z: 8.689423}
-  m_LocalScale: {x: 0.47483, y: 1.7142, z: 1.8309149}
+  m_LocalPosition: {x: 29.204208, y: 11.812, z: 8.689423}
+  m_LocalScale: {x: 0.47483, y: 2.548399, z: 2.449215}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2049450281}
@@ -1790,7 +1790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1198825511}
   - component: {fileID: 1198825512}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: VideoPlaybackLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1885,7 +1885,7 @@ GameObject:
   - component: {fileID: 1233154437}
   - component: {fileID: 1233154436}
   - component: {fileID: 1233154435}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: VideoPlaybackScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1951,8 +1951,8 @@ Transform:
   m_GameObject: {fileID: 1233154434}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 29.449207, y: 11.638358, z: 8.681723}
-  m_LocalScale: {x: 1, y: 1, z: 0.044722203}
+  m_LocalPosition: {x: 29.449207, y: 11.901, z: 8.681723}
+  m_LocalScale: {x: 2, y: 2, z: 0.044722203}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1198825511}
@@ -3090,6 +3090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoScreen: {fileID: 1233154434}
+  recorderCamera: {fileID: 1960678777}
 --- !u!4 &2049450281
 Transform:
   m_ObjectHideFlags: 0

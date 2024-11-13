@@ -7,7 +7,7 @@ public class CameraVision : MonoBehaviour
     public GameObject camFeed; //video feed
 
     private List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
-    
+
     //recording vars
     private int totalShots;
     public int framesPerSecond;
@@ -24,24 +24,29 @@ public class CameraVision : MonoBehaviour
     public Texture2D static2;
 
     private CameraLightIndication camLight;
+    private FullVideoPlayback fullVideoPlayback;
 
 
     private void Start()
     {
         //safeguard div by 0
-        if(framesPerSecond < 1)
+        if (framesPerSecond < 1)
             framesPerSecond = 1;
 
-        consecutivePhotos = 0;
-        totalShots = 0;
+        //prepare video for first time use
+        ResetVideo();
+
+        //find necessary objects in scene
         feedMesh = camFeed.GetComponent<MeshRenderer>();
         camLight = FindObjectOfType<CameraLightIndication>();
+        fullVideoPlayback = FindObjectOfType<FullVideoPlayback>();
     }
 
     private void Update()
     {
         fpsTimer += Time.deltaTime;
 
+        //RECORD VIDEO
         if (Input.GetMouseButton(1) && fpsTimer > ((1000 / framesPerSecond) * 0.001)) //scales with fps
         {
             camLight.UpdateState(1);
@@ -55,14 +60,22 @@ public class CameraVision : MonoBehaviour
             consecutivePhotos = 0;
             camLight.UpdateState(-1);
         }
-            
 
+
+        //ADJUST ZOOM
         if (Input.GetAxis("Mouse ScrollWheel") != 0) //if scrolling has happened
             AdjustZoom(Input.GetAxis("Mouse ScrollWheel"));
 
         if (Input.GetMouseButtonDown(2)) //middle mouse pressed
             ResetZoom();
 
+
+        //EXTRACT FOOTAGE
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            fullVideoPlayback.InheritVideo(screenshots);
+            ResetVideo();
+        }
     }
 
     void takeScreenshot()
@@ -76,7 +89,7 @@ public class CameraVision : MonoBehaviour
         //read the pixels from the same spot and apply
         RenderTexture.active = renderTexture;
         screenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-        screenshot.Apply();    
+        screenshot.Apply();
 
         if (consecutivePhotos == 1) //add static for first 2 frames, enable light
         {
@@ -104,7 +117,7 @@ public class CameraVision : MonoBehaviour
     {
         if (axis < 0 && thisCam.fieldOfView < 120) //player scrolls down
             thisCam.fieldOfView += 2;
-        
+
         else if (axis > 0 && thisCam.fieldOfView > 30) //player scrolls up
             thisCam.fieldOfView -= 2;
     }
@@ -113,6 +126,15 @@ public class CameraVision : MonoBehaviour
     {
         //default FOV
         thisCam.fieldOfView = 70;
+    }
+
+    private void ResetVideo()
+    {
+        //reset logic variables
+        consecutivePhotos = 0;
+        totalShots = 0;
+        screenshots = new List<Texture2D>();
+
     }
 }
 
