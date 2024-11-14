@@ -5,6 +5,7 @@ public class CameraVision : MonoBehaviour
 {
     public Camera thisCam; //main camera
     public GameObject camFeed; //video feed
+    public GameObject extractPrompt; //the prompt given to extract video 
 
     private List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
 
@@ -40,6 +41,8 @@ public class CameraVision : MonoBehaviour
         feedMesh = camFeed.GetComponent<MeshRenderer>();
         camLight = FindObjectOfType<CameraLightIndication>();
         fullVideoPlayback = FindObjectOfType<FullVideoPlayback>();
+
+        
     }
 
     private void Update()
@@ -70,11 +73,21 @@ public class CameraVision : MonoBehaviour
             ResetZoom();
 
 
+
         //EXTRACT FOOTAGE
-        if (Input.GetKeyDown(KeyCode.Q))
+        extractPrompt.SetActive(false);
+
+        if (Vector3.Distance(transform.position, fullVideoPlayback.gameObject.transform.position) < 6) //if player is close enough
         {
-            fullVideoPlayback.InheritVideo(screenshots);
-            ResetVideo();
+            extractPrompt.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.Q)) //if player presses extract footage button
+            {
+                feedMesh.material.mainTexture = null;
+                fullVideoPlayback.InheritVideo(screenshots);
+                ResetVideo();
+
+            }
         }
     }
 

@@ -39,14 +39,10 @@ public class FullVideoPlayback : MonoBehaviour
     public void Update()
     {
         fpsTimer += Time.deltaTime;
-        //print("is playing?: " + isPlayingVideo);
-        //print("current frame: " + currentFrame);
-        //print("video size?: " + replayScreenshots.Count);
 
         //while the video isn't done
         if (isPlayingVideo && currentFrame < replayScreenshots.Count)
-        {
-            print("reached");   
+        {  
             if (fpsTimer > ((1000 / cameraVisionScript.framesPerSecond) * 0.001)) //same fps as the camera
             {
                 //update material to next screenshot instance
@@ -58,10 +54,8 @@ public class FullVideoPlayback : MonoBehaviour
         }
         else if (isPlayingVideo && currentFrame >= replayScreenshots.Count)
         {
-            //print("reached");
             //video is done playing
             isPlayingVideo = false;
-            //screenshots.Clear();
         }
     }
 }
