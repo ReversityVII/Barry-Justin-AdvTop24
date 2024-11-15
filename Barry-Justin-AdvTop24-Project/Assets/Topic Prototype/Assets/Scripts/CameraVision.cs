@@ -6,6 +6,7 @@ public class CameraVision : MonoBehaviour
     public Camera thisCam; //main camera
     public GameObject camFeed; //video feed
     public GameObject extractPrompt; //the prompt given to extract video 
+    
 
     private List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
 
@@ -26,7 +27,8 @@ public class CameraVision : MonoBehaviour
 
     private CameraLightIndication camLight;
     private FullVideoPlayback fullVideoPlayback;
-
+    private AudioRenderer audioRenderer;
+    
 
     private void Start()
     {
@@ -41,6 +43,7 @@ public class CameraVision : MonoBehaviour
         feedMesh = camFeed.GetComponent<MeshRenderer>();
         camLight = FindObjectOfType<CameraLightIndication>();
         fullVideoPlayback = FindObjectOfType<FullVideoPlayback>();
+        audioRenderer = FindObjectOfType<AudioRenderer>();
 
         
     }
@@ -103,6 +106,9 @@ public class CameraVision : MonoBehaviour
         RenderTexture.active = renderTexture;
         screenshot.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         screenshot.Apply();
+
+        //READ AUDIO
+        audioRenderer.Save(Application.persistentDataPath);
 
         if (consecutivePhotos == 1) //add static for first 2 frames, enable light
         {
