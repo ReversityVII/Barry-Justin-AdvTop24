@@ -54,7 +54,7 @@ public class CameraVision : MonoBehaviour
         {
             camLight.UpdateState(1);
             consecutivePhotos++;
-            takeScreenshot();
+            TakeScreenshot();
             fpsTimer = 0;
         }
 
@@ -77,7 +77,7 @@ public class CameraVision : MonoBehaviour
         //EXTRACT FOOTAGE
         extractPrompt.SetActive(false);
 
-        if (Vector3.Distance(transform.position, fullVideoPlayback.gameObject.transform.position) < 6) //if player is close enough
+        if (Vector3.Distance(transform.position, fullVideoPlayback.gameObject.transform.position) < 6 && !Input.GetMouseButton(1)) //if player is close enough and is not recording
         {
             extractPrompt.SetActive(true);
 
@@ -91,7 +91,7 @@ public class CameraVision : MonoBehaviour
         }
     }
 
-    void takeScreenshot()
+    void TakeScreenshot()
     {
         //set up screenshot properties
         Texture2D screenshot = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
