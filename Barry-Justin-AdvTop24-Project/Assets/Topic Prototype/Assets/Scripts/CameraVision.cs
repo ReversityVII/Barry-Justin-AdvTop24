@@ -7,11 +7,13 @@ public class CameraVision : MonoBehaviour
     public GameObject camFeed; //video feed
     public GameObject extractPrompt; //the prompt given to extract video 
 
+    [SerializeField]
     private List<Texture2D> screenshots = new List<Texture2D>(); //list of all frames
 
     //recording vars
     private int totalShots;
     public int framesPerSecond;
+    public int totalScreenshotLimit; //1000 frames is around a gigabyte of memory. Adjust accordingly. 
     private float fpsTimer;
     private float consecutivePhotos;
 
@@ -24,8 +26,11 @@ public class CameraVision : MonoBehaviour
     public Texture2D static1; //static for cuts
     public Texture2D static2;
 
-    private CameraLightIndication camLight;
+    [SerializeField] private CameraLightIndication camLight;
+    [SerializeField] private TrackTotalShots trackTotalShots;
+
     private FullVideoPlayback fullVideoPlayback;
+    
 
 
     private void Start()
@@ -39,10 +44,7 @@ public class CameraVision : MonoBehaviour
 
         //find necessary objects in scene
         feedMesh = camFeed.GetComponent<MeshRenderer>();
-        camLight = FindObjectOfType<CameraLightIndication>();
         fullVideoPlayback = FindObjectOfType<FullVideoPlayback>();
-
-        
     }
 
     private void Update()
@@ -50,10 +52,14 @@ public class CameraVision : MonoBehaviour
         fpsTimer += Time.deltaTime;
 
         //RECORD VIDEO
-        if (Input.GetMouseButton(1) && fpsTimer > ((1000 / framesPerSecond) * 0.001)) //scales with fps
+        if (Input.GetMouseButton(1) && fpsTimer > ((1000 / framesPerSecond) * 0.001) && trackTotalShots.NextShotPermitted()) //scales with fps
         {
             camLight.UpdateState(1);
-            consecutivePhotos++;
+
+            //consider blending into one
+            consecutivePhotos++; //locally, in script
+            trackTotalShots.addShot(); //for UI
+
             TakeScreenshot();
             fpsTimer = 0;
         }
@@ -144,6 +150,7 @@ public class CameraVision : MonoBehaviour
     private void ResetVideo()
     {
         //reset logic variables
+        trackTotalShots.resetShots();
         consecutivePhotos = 0;
         totalShots = 0;
         screenshots = new List<Texture2D>();
