@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class FullVideoPlayback : MonoBehaviour
 
     public GameObject videoScreen;
     public GameObject recorderCamera;
+    [SerializeField] private TextMeshPro timeRemainingText;
     private MeshRenderer videoScreenMesh;
     private CameraVision cameraVisionScript;
 
@@ -31,17 +33,18 @@ public class FullVideoPlayback : MonoBehaviour
         //set relevant variables for playback
         isPlayingVideo = true;
         currentFrame = 0;
-
-        //print(screenshots.Count);
-        
     }
 
     public void Update()
     {
         fpsTimer += Time.deltaTime;
 
-        //while the video isn't done
-        if (isPlayingVideo && currentFrame < replayScreenshots.Count)
+        //display time remaining text
+        float timeRemainingValue = Mathf.Round((replayScreenshots.Count - currentFrame) / cameraVisionScript.framesPerSecond);
+        timeRemainingText.text = "Time Remaining: " + timeRemainingValue + "s";
+
+        //video replay
+        if (isPlayingVideo && currentFrame < replayScreenshots.Count) //while the video is playing and hasn't reached the end
         {  
             if (fpsTimer > ((1000 / cameraVisionScript.framesPerSecond) * 0.001)) //same fps as the camera
             {
@@ -50,9 +53,8 @@ public class FullVideoPlayback : MonoBehaviour
                 fpsTimer = 0;
                 currentFrame++;
             }
-                
         }
-        else if (isPlayingVideo && currentFrame >= replayScreenshots.Count)
+        else if (isPlayingVideo && currentFrame >= replayScreenshots.Count) //video is still playing but end has been reached
         {
             //video is done playing
             isPlayingVideo = false;
