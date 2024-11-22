@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f945e777233a59f4aba40aeca29093a6, type: 3}
+  m_Name: WanderingScanningSUBFSM
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.StateMachines.FSM","nodes":[{"_actionList":{"executionMode":1,"actions":[{"maxDistance":{"_name":"maxDistance","_targetVariableID":"3cc04f7d-29b2-4306-bab4-8f1992f2b32f"},"minWaitTime":{"_name":"minWaitTime","_targetVariableID":"e1d4fcb2-3ea3-4922-872f-1eb05dd5af70"},"maxWaitTime":{"_name":"maxWaitTime","_targetVariableID":"61c22baa-a13b-4bec-901f-f7ddf8683540"},"scanReady":{"_name":"scanReady","_targetVariableID":"6923de77-3558-4d27-9ab6-24fe03aad3d8"},"$type":"NodeCanvas.Tasks.Actions.WanderingActionTask"}]},"_color":{"r":1.0,"g":0.42,"b":0.32,"a":1.0},"_name":"Wandering","_position":{"x":499.0,"y":480.0},"$type":"NodeCanvas.StateMachines.ActionState","$id":"0"},{"_actionList":{"executionMode":1,"actions":[{"foundSomething":{"_name":"foundSomething","_targetVariableID":"f4b55899-d2ab-47c0-8171-45867dac2b42"},"scanDistance":{"_name":"scanDistance","_targetVariableID":"44f1a5be-96e3-499a-9bff-c6a32ee71025"},"targetMouse":{"_name":"targetMouse","_targetVariableID":"13ad8bb4-35d6-4ab5-81dc-62641590d4f2"},"scanReady":{"_name":"scanReady","_targetVariableID":"6923de77-3558-4d27-9ab6-24fe03aad3d8"},"mouseLayer":{"_name":"mouseLayer","_targetVariableID":"eb830df2-9c2d-4f3c-8603-2828711ec4bf"},"$type":"NodeCanvas.Tasks.Actions.ScanningActionTask"}]},"_color":{"r":1.0,"g":0.42,"b":0.32,"a":1.0},"_name":"Scanning","_position":{"x":705.8655,"y":564.3988},"$type":"NodeCanvas.StateMachines.ActionState","$id":"1"}],"connections":[{"_condition":{"scanReady":{"_name":"scanReady","_targetVariableID":"6923de77-3558-4d27-9ab6-24fe03aad3d8"},"$type":"NodeCanvas.Tasks.Conditions.ScanCycleConditionTask"},"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"scanReady":{"_name":"scanReady","_targetVariableID":"6923de77-3558-4d27-9ab6-24fe03aad3d8"},"$type":"NodeCanvas.Tasks.Conditions.ScanCycleConditionTask"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"0"},"$type":"NodeCanvas.StateMachines.FSMConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"scanDistance":{"_value":3.0,"_name":"scanDistance","_id":"44f1a5be-96e3-499a-9bff-c6a32ee71025","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"mouseLayer":{"_value":{"value":256},"_name":"mouseLayer","_id":"eb830df2-9c2d-4f3c-8603-2828711ec4bf","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.LayerMask,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.29
+    _category: 
+    _comments: 
+    _translation: {x: -171.94936, y: 19.315565}
+    _zoomFactor: 1
+  _haltSerialization: 0
+  _externalSerializationFile: {fileID: 0}
