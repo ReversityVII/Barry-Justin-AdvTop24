@@ -137,7 +137,7 @@ public class CameraVision : MonoBehaviour
         if (axis < 0 && thisCam.fieldOfView < 120) //player scrolls down
             thisCam.fieldOfView += 2;
 
-        else if (axis > 0 && thisCam.fieldOfView > 30) //player scrolls up
+        else if (axis > 0 && thisCam.fieldOfView > 10) //player scrolls up
             thisCam.fieldOfView -= 2;
     }
 
