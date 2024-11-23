@@ -17,7 +17,7 @@ public class MouseSpawner : MonoBehaviour
             if(Input.GetKey(KeyCode.E) && timer > mouseCooldown) 
             {
                 //spawn mouse prefab
-                Instantiate(mousePrefab, gameObject.transform.position, gameObject.transform.rotation);
+                Instantiate(mousePrefab, gameObject.transform.position + gameObject.transform.forward, gameObject.transform.rotation);
                 timer = 0;
 
             } 

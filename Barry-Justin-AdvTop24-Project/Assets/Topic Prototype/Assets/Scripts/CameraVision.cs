@@ -154,7 +154,6 @@ public class CameraVision : MonoBehaviour
         consecutivePhotos = 0;
         totalShots = 0;
         screenshots = new List<Texture2D>();
-
     }
 }
 

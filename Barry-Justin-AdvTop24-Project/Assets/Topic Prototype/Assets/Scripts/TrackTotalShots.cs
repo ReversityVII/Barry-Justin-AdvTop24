@@ -49,7 +49,7 @@ public class TrackTotalShots : MonoBehaviour
         float secondsRemaining = (shotsLimit - totalShots) / cameraVision.framesPerSecond;
 
         //update display
-        percentageText.text = correctedLimitPercentage.ToString() + "%" + "   |   " + secondsRemaining.ToString() + "s";
+        percentageText.text = correctedLimitPercentage.ToString() + "%" + "   |   " + secondsRemaining.ToString() + "s left";
         
 
     }
