@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
 
         //mouse movement
-        if(canMove) 
+        if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSensitivity;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);

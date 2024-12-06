@@ -4,18 +4,29 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/*
+ * TrackTotalShots class. 
+ * Handles the logic surrounding how many shots have been taken and if any more are allowed.
+ * Also handles the display of this information within the Update() function, which updates the UI to communicate this
+ * information to players.
+ */
+
 public class TrackTotalShots : MonoBehaviour
 {
+    //track shot count and limit
     private int totalShots;
     private int shotsLimit;
 
+    //update UI elements
     private CameraVision cameraVision;
     public TextMeshProUGUI percentageText;
 
+    //customizable gradient for the text changing color as player reaches limit
     public Gradient gradient;
 
     public void Start()
     {
+        //set initial variables
         totalShots = 0;
         cameraVision = gameObject.GetComponent<CameraVision>();
         shotsLimit = cameraVision.totalScreenshotLimit;
@@ -23,12 +34,11 @@ public class TrackTotalShots : MonoBehaviour
 
     public bool NextShotPermitted() //is another shot allowed to be taken?
     {
-        if (totalShots < shotsLimit) 
-        {
-            return true; 
-        }
+        if (totalShots < shotsLimit) //as long as there is at least one more shot available
+            return true;
+        
         else
-        return false;
+            return false;
     }
 
     public void addShot() //called when a shot is taken
@@ -36,10 +46,10 @@ public class TrackTotalShots : MonoBehaviour
         totalShots++;
     }
 
-    public void Update()
+    public void Update() //display needed UI elements. Percentage, seconds remaining.
     {
         //set color of text
-        float limitPercentage = (float) totalShots/shotsLimit;
+        float limitPercentage = (float)totalShots / shotsLimit;
         percentageText.color = gradient.Evaluate(limitPercentage);
 
         //convert to more readable number for display
@@ -50,12 +60,11 @@ public class TrackTotalShots : MonoBehaviour
 
         //update display
         percentageText.text = correctedLimitPercentage.ToString() + "%" + "   |   " + secondsRemaining.ToString() + "s left";
-        
-
     }
 
     public void resetShots() //called when the footage is uploaded to the terminal
     {
-        totalShots = 0; 
+        //start fresh
+        totalShots = 0;
     }
 }
