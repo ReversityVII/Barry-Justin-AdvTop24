@@ -6,7 +6,6 @@ using UnityEngine;
  * This script handles letting the player record video with their camera.
  * They can record, and zoom in/out.
  * Also prompts the player to extract their video if they are close enough to the video terminal. 
- * NOTE: This one is a little comment heavy, consider slimming down in the future
  */
 public class CameraVision : MonoBehaviour
 {
@@ -60,7 +59,8 @@ public class CameraVision : MonoBehaviour
         double timeSinceLastFrame = ((1000 / framesPerSecond) * 0.001);
 
         //RECORD VIDEO
-        if (Input.GetMouseButton(1) && fpsTimer > timeSinceLastFrame && trackTotalShots.NextShotPermitted()) //player pressed record button, enough time has passed since last frame, and the next shot is permitted
+        if (Input.GetMouseButton(1) && fpsTimer > timeSinceLastFrame && trackTotalShots.NextShotPermitted()) 
+            //player pressed record button, enough time has passed since last frame, and the next shot is permitted
         {
             camLight.UpdateState(true);
 
